@@ -1,4 +1,5 @@
 ﻿@using PresentationLayer.ViewModels;
+@using DataLayer.Enums;
 
 @*вариант для для dataManager
 @model List<DataLayer.Entities.Directory>*@
@@ -23,7 +24,23 @@
             {
             <li>
                 @*<h3>@item.Title</h3>*@
-                <h3>@item.Directory.Title</h3>
+                @*<h3>@item.Directory.Title</h3>*@
+                <h2>
+                    <a asp-action="Index" asp-controller="Page" 
+                       asp-route-pageId="@item.Directory.Id"
+                       asp-route-pageType ="@PageEnums.PageType.Directory">
+                        @item.Directory.Title
+                    </a>
+                    |
+                    <small>
+                        <a asp-action="PageEditor" asp-controller="Page" 
+                           asp-route-pageId="@item.Directory.Id"
+                           asp-route-pageType ="@PageEnums.PageType.Directory">
+                            -->EditDirectory
+                        </a>
+                    </small>                    
+                    |
+                </h2>
                 <ul>
                     @if (item.Materials != null)
                     {
@@ -31,13 +48,43 @@
                         {
                             <li>
                                 @*@sub.Title*@
-                                @sub.Material.Title
+                                @*@sub.Material.Title*@
+                                <a asp-action="Index" asp-controller="Page"
+                                   asp-route-pageId="@sub.Material.Id"
+                                   asp-route-pageType="@PageEnums.PageType.Material">
+                                    @sub.Material.Title
+                                </a>
+                                |
+                                <small>
+                                    <a asp-action="PageEditor" asp-controller="Page"
+                                       asp-route-pageId="@sub.Material.Id"
+                                       asp-route-directoryId="@item.Directory.Id"
+                                       asp-route-pageType="@PageEnums.PageType.Material">
+                                        -->EditMaterial
+                                    </a>
+                                </small>
+                                |
                             </li>
-                        }
+                        }                    
+                        <li>
+                            <a asp-action="PageEditor" asp-controller="Page"
+                               asp-route-pageId="0" 
+                               asp-route-directoryId="@item.Directory.Id"
+                               asp-route-pageType ="@PageEnums.PageType.Material">
+                                -->CreateMaterial
+                            </a>
+                        </li>
                     }
                 </ul>
             </li>
             }
+            <li>
+                <a asp-action="PageEditor" asp-controller="Page"
+                   asp-route-pageId="0"
+                   asp-route-pagetype="@PageEnums.PageType.Directory">
+                    -->CreateDirectory
+                </a>
+            </li>
         </ul>
     </div>
 </div>
